@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+<script>
+
+    console.log(...[1,2,3]);
+    // 1,2,3
+
+    function add(x,y){
+        return x+y;
+    }
+
+    function push(array,...items){
+      array.push(...items);
+      return array;
+    }
+    var arr = [3,6,8,10];
+    var item = [9,10];
+    var array = push(arr,...item);
+    console.log(array);
+
+    const numbers = [2,38];
+    console.log(add(...numbers));
+
+</script>

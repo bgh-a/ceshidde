@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    Array.from()方法用于将两类对象转为真正的数组
+
+</body>
+</html>
+<script>
+
+    var obj = {
+        "0":"甲",
+        "1":"乙",
+        "2":"丙",
+        "length":3
+    };
+
+    var realObj3 = Array.from(obj);
+    console.log(realObj3);
+
+</script>

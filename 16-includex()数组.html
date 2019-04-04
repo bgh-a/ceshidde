@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+<script>
+    // 注意，includes 是全等比较，带着类型比较的：
+    var arr = ["三星","oppe","iphone","vivo","hou",10];
+    console.log(arr.includes("三星2")); // false
+    console.log(arr.includes("iphone"));  // true
+
+    console.log(arr.includes("10"));   // "10" 是字符串数组中没有，所有false
+
+</script>

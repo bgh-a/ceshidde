@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    Object.is()比较两个运算符是否相等
+
+</body>
+</html>
+<script>
+    var a = NaN;
+    var b = NaN;
+    console.log(a==b);
+    console.log(Object.is(NaN,NaN));
+    var c = +0;
+    var d = -0;
+    console.log(c==d);
+    console.log(Object.is(c,d));
+</script>

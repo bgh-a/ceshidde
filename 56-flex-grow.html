@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    
+        .flex{
+            display: flex;
+            width: 600px;
+            margin:0;
+            padding: 0;
+            list-style: none;
+            border:1px solid skyblue;
+        }
+
+        .flex li:nth-child(1){
+            width: 200px;
+            background: palevioletred;
+        }
+
+        .flex li:nth-child(2){
+            flex-grow: 1;
+            /* width: 50px; */
+            background: paleturquoise;
+        }
+
+        .flex li:nth-child(3){
+            flex-grow: 3;
+            /* width: 50px; */
+            background: peachpuff;
+        }
+    
+    </style>
+</head>
+<body>
+    <ul class="flex">
+        <li>a</li>
+        <li>b</li>
+        <li>c</li>
+    </ul>
+</body>
+</html>

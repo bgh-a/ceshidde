@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    bind()表示给一个函数定死上下文
+    <br>
+    bind和apply和call有什么区别
+    <p>(1)bind不能调用函数，call和apply会调用函数</p>
+    <p>(2)bind能绑死上下文，call和apply是临时的</p>
+</body>
+</html>
+<script>
+
+    function fun(){
+        console.log(this.a);
+    }
+
+    // 这是一个对象
+    var obj = {
+        a:233,
+        b:886
+    }
+
+    // 这是另一个对象
+    var another = {
+        a : 9999
+    }
+
+    // 定死上下文为obj对象
+    fun = fun.bind(obj);
+
+    fun();  
+    fun.call(another);   // 233 ,call失效了
+    fun.apply(another);   // 233, apply失效了
+
+</script>

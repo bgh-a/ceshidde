@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+<script>
+    // 之前对象方法
+    // var obj = {
+    //     a : 1,
+    //     fn : function(){
+    //         console.log(this.a);
+    //     }
+    // }
+
+
+    // 现在能简写为
+    var obj = {
+        a : 1,
+        fn(){
+            console.log(this.a);
+        }
+    }
+
+    var obj = {
+        a : 1,
+        fn(){
+            console.log("Hello  在北京一定要努力加油");
+        }
+    }
+    obj.fn();
+</script>

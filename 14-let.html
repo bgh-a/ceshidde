@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    let
+</body>
+</html>
+<script>
+    // let用来定义块级作用域变量，它的用法类似于var，但是所声明的变量，只在let命令所在的代码块内有效
+
+    // 所谓的块级作用域值的是大括号、所有的语句体。
+
+    {
+        var a = 1;
+    }
+    console.log(a);
+
+    let b = 13;
+
+    {
+        let b = 2;
+        console.log(b);
+    }
+    console.log(b);
+</script>

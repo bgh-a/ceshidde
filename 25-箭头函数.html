@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    如果函数体内只有一行语句，可以省略{}和return。
+    <br>
+    反过来，如果函数体内有多条语句，此时必须写{}和return单词
+    <hr>
+    箭头函数有几个使用注意点
+    (1)函数体内的this对象，就是定义时所在的对象，而不是使用时所在的对象
+
+    
+</body>
+</html>
+<script>
+
+    // const sum = (a,b) => {
+    //     return a +b;
+    // }
+    
+    // 大括号中如果只有一句话  可以省掉大括号这样写 ，如果函数体内只有一行语句，可以省略{}和return。
+    const sum = (a,b) => a+b;
+
+    console.log(sum(3,4));
+    
+    // 反过来，如果函数体内有多条语句，此时必须写{}和return单词
+</script>
