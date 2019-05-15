@@ -12,12 +12,15 @@
 </html>
 <script>
 
-    var obj = {
-        "k0":"甲",
-        "k1":"乙",
-        "k2":"丙"
-    };
+    var [x,y] = [2,4]
+    // 控制台 x = 2,y=2
 
-    console.log(obj.hasOwnProperty('kd0'));
-    // console.log(Object.values(obj));
+    let arr2 = [2,3];
+    let arr3 = [3,6];
+    // 合并数组
+    console.log("concat:"+arr2.concat(arr3));
+    [...arr2,...arr3]
+
+    var [h,...a] = [3,6,8,12,32,21]
+    console.log(h,a)
 </script>

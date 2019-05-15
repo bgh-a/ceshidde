@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            background: url(./img/925.jpg) no-repeat center center;
+            background-size: cover;
+            background-attachment: fixed;
+            background-color: #CCCCCC;
+        }
+
+        .box {
+            width: 500px;
+            height: 500px;
+            position: absolute;
+            left: 50%;
+            /* 定位父级的50% */
+            top: 50%;
+            transform: translate(-50%, -50%);
+            /*自己的50% */
+            display: flex;
+            justify-content:center;  
+            align-items:center;      
+
+        }
+
+        .box .nice {
+            width: 400px;
+            height: 400px;
+            border: 1px gold solid;
+        }
+        .text {
+            width: 290px;
+            height: 30px;
+            border:none;
+            border-radius: 30px;
+            box-shadow: 0px 0px 5px #ccc;
+        }
+    
+        .btn {
+background: #E27575;
+border: none;
+padding: 10px 25px 10px 25px;
+color: #FFF;
+box-shadow: 1px 1px 5px #B6B6B6;
+border-radius: 3px;
+text-shadow: 1px 1px 1px #9E3F3F;
+cursor: pointer;
+}
+.btn:hover {
+background: #CF7A7A
+}
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <form action="">
+            用户名: <input class="text" type="text" name="" id=""><br><br>
+            密&ensp;&ensp;码: <input class="text" type="password" name="" id=""><br><br>
+            <input type="submit" class="btn" value="提交">
+        </form>
+    </div>
+</body>
+
+</html>

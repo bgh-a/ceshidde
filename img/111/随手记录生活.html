@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>随手记录生活</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: url(./images/background.jpg) no-repeat center center;
+            background-size: cover;
+            background-attachment: fixed;
+            background-color: #CCCCCC;
+            overflow: hidden;
+        }
+        .bj .logo{
+            position: absolute;
+            left: 50%;
+            top: 400px;
+        }
+        .bj form{
+            position: absolute;
+            bottom: 250px;
+            left: 50%;
+            font-size: 40px;
+        }
+        .bj input{
+            width: 300px;
+            height: 40px;
+            border-radius:10px;
+            border: none;
+            background-color: #D3D3D3;
+            font-size: 30px;
+        }
+        .bj form .bt input{
+            width: 100px;
+            height: 40px;
+            margin:50px 0px 0px 0px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="bj">
+    <img src="images/logo.jpg" class="logo">
+    <form action="">
+        <input type="text" placeholder="账号"><br>
+        <input type="password" placeholder="密码"><br>
+        <div class="bt">
+            <input type="submit" value="登陆">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="submit" value="注册">
+        </div>
+    </form>
+</div>
+</body>
+</html>

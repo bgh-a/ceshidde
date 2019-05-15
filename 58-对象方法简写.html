@@ -13,11 +13,19 @@
 <script>
 
     var obj = {
-        "k0":"甲",
-        "k1":"乙",
-        "k2":"丙"
-    };
+        a : 1,
+        fn : function(){
+            console.log("俺是对象的方法");
+        }
+    }
 
-    console.log(obj.hasOwnProperty('kd0'));
-    // console.log(Object.values(obj));
+    var obj1 = {
+        a : 1,
+        fn(){
+            console.log("我是简写的对象方法")
+        }
+    }
+
+    console.log(obj,obj1);
+
 </script>

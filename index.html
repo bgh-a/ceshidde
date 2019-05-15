@@ -1,13 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    <h1>哦呵，8k噢</h1>
-</body>
-</html>
-<script src="./index.js"></script>
+<template>
+        <div id="finance">
+            <processing></processing>
+        </div>
+    </template>
+    
+    <script>
+    import processing from '../common/construction.vue'
+        
+        export default {
+            components:{
+                processing, // 意思是网页正在建设中
+            },
+            data() {
+                return {
+                    
+                };
+            },
+         created() {
+          this.$Modal.info({
+            title: '此功能正在完善中……',
+            onOk: () => {
+              this.$router.push({
+                  path: "personnel/flowManagement"
+              });
+            },
+          });
+        }
+        }
+    </script>
+    
+    <style scoped>
+        #finance{
+            padding-top:60px;
+        }
+    </style>
+    

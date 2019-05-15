@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+           
+
+            background: url('./img/wallhaven-642850.jpg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='./img/wallhaven-642850.jpg', sizingMethod='scale');
+            -ms-filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='./img/wallhaven-642850.jpg', sizingMethod='scale');
+            background-size: cover;
+            -moz-background-size: cover;
+            -webkit-background-size: cover;
+
+
+        }
+
+        .box {
+            margin: 50px auto;
+            border:1px solid #6a6;
+            width: 400px;
+            height: 400px;
+            position: relative;    
+        }
+
+        .box .text {
+            width: 400px;
+            height: 150px;
+            position: absolute;
+            top:200px;
+            left:70px;
+            line-height: 150px;
+            color: #4D4DFF;
+            animation: mymove 3.8s infinite;
+            -webkit-animation: mymove 3.8s infinite;
+            /*Safari and Chrome */
+        }
+
+        @keyframes mymove {
+            0% {
+                opacity: 0;
+            }
+
+            25% {
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+                font-size: 23px;
+            }
+        }
+
+        @-webkit-keyframes mymove
+
+        /*Safari and Chrome*/
+            {
+            0% {
+                opacity: 0;
+            }
+
+            25% {
+                opacity: 0;
+            }
+
+            75% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div class="text">
+            网站建设中，敬请期待！
+        </div>
+    </div>
+</body>
+
+</html>

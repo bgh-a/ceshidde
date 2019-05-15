@@ -12,12 +12,17 @@
 </html>
 <script>
 
-    var obj = {
-        "k0":"甲",
-        "k1":"乙",
-        "k2":"丙"
-    };
+    let obj = {
+        name: "侯阿康",
+        sex:'男',
+        age:24
+    }
 
-    console.log(obj.hasOwnProperty('kd0'));
-    // console.log(Object.values(obj));
+    function fn({sex}){
+        console.log(sex)
+    }
+
+    fn(obj)
+
+
 </script>
