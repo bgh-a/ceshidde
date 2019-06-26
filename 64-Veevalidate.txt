@@ -1,0 +1,352 @@
+本篇总结 API
+ 
+v-validate directive
+	v-validate 指令是验证我们的 inputs 输入框的主要方式，该指令接受一个字符串或对象作为值。
+ 
+	如果传递了一个字符串，它必须是一个有效的 rules 字符串，由 '|' 分隔的验证规则。
+ 
+		<input v-validate="'required|email'" name="field" type="text">
+ 
+	如果传递了一个对象，它必须包含要使用的 rules 的属性，rules 的值是数组格式的参数或单个值参数(如果规则接收单个参数)。
+ 
+		// 字符串
+		const expression = 'required|regex:^[0-9]+';
+ 
+		const expression = {
+		  // 无参数的规则使用 boolean
+		  required: true,
+		  // 单个参数的规则使用单个值
+		  regex: /.(js|ts)$/,
+		  // 多个参数的规则使用数组
+		  in: [1, 2, 3]
+		};
+ 
+	指令参数
+		指令还接受一个 arg，表示要验证的 vue model 的名称，或计算属性。
+ 
+			<input v-model="email" v-validate:email="'required|email'" name="field" type="text">
+ 
+			export default {
+				data: () => ({
+				    email: ''
+				})
+			};
+ 
+		然而，arg 完全是可选的。此外，v-validate 检查 input 输入框/组件 是否分配了 v-model，并将 v-model 表达式视为 arg。但请记住，arg 必须是一个简单的 dot notation string(点符号字符串)，并且它必须存在于 vue 实例上。
+ 
+		PS：
+			dot notation string 查看了下，就是可以使用 '点语法' 的字符串，例如：'String'.upper()
+ 
+		提示：
+			你可能会问什么时候使用 arg？前提是可以检测到 v-model。一个有效的情况是当我们需要验证计算属性时，就需要使用 arg。
+ 
+	指令修饰符
+		immediate
+			我们可以使用 .immediate 修饰符，在页面加载后立即验证字段。
+ 
+				<template>
+				  	<input v-model="email" v-validate.immediate="'required|email'" name="field" type="text">
+				</template>
+ 
+				<script>
+					export default {
+				  		data: () => ({
+				    		email: ''
+				  		})
+					};
+				</script>
+ 
+		continues
+			默认情况下，vee-validate 在验证字段规则时，使用 fastExit 策略。意味着当第一个规则验证失败时，它将停止，且不会验证其余规则。我们可以使用 .continues 修饰符，来强制验证所有规则，而不管这些规则的验证结果。
+ 
+			下面的代码段使用 .continues 修饰符，来显示字段的所有错误，这是一种常见的 UI 实践。
+ 
+				<template>
+				  	<div>
+				    	<input v-model="email" v-validate.continues="'required|email'" name="field" type="text">
+				    	<ul>
+				      		<li v-for="error in errors.collect('field')">{{ error }}</li>
+				    	</ul>
+				  	</div>
+				</template>
+ 
+				<script>
+					export default {
+				  		data: () => ({
+				    		email: ''
+					  	})
+					};
+				</script>
+ 
+			我们可以配置 fastExit 选项为 false，来对所有字段启用 '.continues' 修饰符的行为。
+ 
+			提示：
+				.continues 修饰符还有另一个用途，它禁用了 required 规则的检查，意味着，没有 required 规则但是值为空的字段，将不会被跳过。因此，确保我们的自定义规则也能够处理空值。
+ 
+		bails
+			反过来，如果我们已经配置了 fastExit 为 false，那么我们可以在特定字段上使用 .bail，在第一次验证失败后停止对其他规则的验证。
+ 
+				<template>
+				  	<div>
+				    	<input v-model="email" v-validate.bails="'required|email'" name="field" type="text">
+				    	<span>{{ errors.first('email') }}</span>
+				  	</div>
+				</template>
+ 
+				<script>
+					export default {
+				  		data: () => ({
+				    		email: ''
+					  	})
+					};
+				</script>
+ 
+Mixin
+	VeeValidate 注入了一个混入(mixin)，通过以下属性来增强我们的 Vue 实例：
+		$validator - 一个 Validator 实例
+		errors - 一个 ErrorBag 实例
+		fields - 一个包含了所有已验证字段的状态标志的对象
+ 
+	提示：
+		我们可以设置 inject 配置选项为 false，来选择不自动在我们的实例中注入这些属性，但是我们将需要自己管理，提供 $validator 实例，来保证指令正常工作，参阅 '组件注入' 章节。
+ 
+data-* Attributes
+	data-* 属性为插件提供了一个可选的接口，用来指定应该发生什么，提供了一个简单的、Vue 版本兼容的 API。如果我们不喜欢将复杂的表达式传递给指令，它们将非常有用。
+ 
+		属性 - 描述
+		data-vv-as - 为字段指定一个漂亮的名称
+		data-vv-delay - 为触发验证指定的延迟时间(单位是毫秒)
+		data-vv-name - 为字段指定一个名称，用于组件验证并作为 inputs 输入框的回退名称
+		data-vv-scope - 为字段指定一个作用域。
+		data-vv-value-path - 指定组件 $data 中的 value 路径，用于检索组件当前值。仅用于组件。
+		data-vv-validate-on - 用于指定由 '|' 分隔的事件名称列表, 默认值因 inputs 输入框类型而异。
+ 
+ErrorBag
+	ErrorBag 类是一个数组包装器，是一个集合对象(估计和 Laravel 一样)，它是独立的、没有任何依赖关系，我们可以在代码中任意使用它:
+ 
+		import { ErrorBag } from 'vee-validate';
+ 
+		const bag = new ErrorBag();
+ 
+		// 例如，我们可能想要添加一个验证相关的错误
+		bag.add({
+		  	field: 'auth',
+		  	msg: 'Wrong Credentials'
+		});
+ 
+		// 像这样显示它
+		bag.first('auth');
+ 
+	单个错误对象如下所示：
+ 
+		const error = {
+			field: 'Field name',
+			msg: 'Error message',
+			rule: 'Rule Name', // optional
+			scope: 'Scope Name', // optional
+			regenerate: () => 'some string', // optional
+			id: 'uniqueId' // optional
+		};
+ 
+	API
+		方法 - 返回值 - 描述
+		add(error: ErrorObject) - void - 将错误添加到错误包中, 错误对象必须符合上面提到的对象结构
+ 
+		all(scope ?: string) - Array - 获取数组中的所有错误消息, 可以指定一个作用域，将检索该作用域内的所有消息
+ 
+		any(scope ?: string) - boolean - 检查是否存在任何错误, 可以指定一个作用域，将检查该作用域内是否存在任何错误
+ 
+		clear(scope ?: string) - void - 清除所有错误，可以指定一个作用域，将只会清除该作用域内的所有错误
+ 
+		collect(field ?: string, scope ?: string, mapped ?: boolean) - Array|Object - 收集指定字段关联的错误。不传递字段名，将会按字段名对所有错误进行分组。指定一个作用域，将收集行为限制在该作用域内。我们可以选择性地指定是否将错误对象映射到错误消息，提供 false 则返回一个 '包含了有关错误的完整信息' 的对象。
+ 
+		count() - number - 返回集合中当前的错误个数
+ 
+		first(field: string, scope ?: string) - string|null - 返回与特定字段关联或由选择器指定的第一条错误消息，可以指定一个作用域，将会在该作用域内查找错误。
+ 
+		firstById(id: string) - string|null - 返回给定 ID 的字段的第一条错误消息
+ 
+		firstByRule(field: string, rule: string, scope ?: string) - string|null - 返回与指定字段和规则关联的第一条错误消息，指定一个作用域，将会在该作用域内查找错误
+ 
+		has(field: string, scope ?: string) - boolean - 检查是否存在，与特定字段关联或由选择器指定的错误消息，可以指定一个作用域，将会在该作用域内查找错误。
+ 
+		remove(field: string, scope ?: string) - void - 移除与特定字段关联的所有错误，可以指定一个作用域，将只会移除该字段和该作用域的消息。
+ 
+		removeById(id: string) - void - 删除与提供的 ID 匹配的字段。
+ 
+		update(id: string,  diff ?: ErrorObject) - void - 更新指定字段的错误消息数据，在内部使用这些数据，来保持字段错误作用域的最新。
+ 
+Field
+	VeeValidate 将要验证的 HTML 元素和 Vue 组件，映射为 fields 实例，虽然这个类没有被公开使用，但我们可以发现，如果计划执行一些更底层的操作，它的 API 非常有用。
+ 
+	警告：
+		任何未记录的属性/方法都不应用于公共用途。
+ 
+	获取字段实例
+		获取字段实例非常简单，我们可以使用 Validator.fields.find 方法获取字段实例。
+ 
+			// 查找匹配到 "email" 名称的字段
+			const field = this.$validator.fields.find({ name: 'email' }));
+ 
+			// 查找匹配到 'email' 名称、且在 'newsletter' 作用域下的字段
+			const field = this.$validator.fields.find({ name: 'email', scope: 'newsletter' });
+ 
+			// 或者使用 id 来查找字段，如果它是你知道的
+			const field = this.$validator.fields.find({ id: 'fieldId' });
+ 
+	API
+		警告：
+			使用字段 API 时要小心，因为它可能会中断验证器操作，并可能产生意外的结果。
+ 
+		构造器
+ 
+		属性
+			名称 - 类型 - 默认值 - 描述
+			id - string - null - 字段 ID(自动生成)
+			el - HTMLElement - null - 要验证的 HTML inputs 输入框元素或组件根元素
+			updated - boolean - false - 表示是否应重新扫描字段以更新其属性(例如：验证规则)。
+			watchers - Watcher[] - [] - 字段实例正在使用的事件监听包装器数组
+			events - string[] - [] - 触发验证的事件列表
+			rules - { [string]: Object } - {} - 用来验证字段的规则/参数映射对象
+			validity - boolean - false - 是否应使用 HTML Constrained API 来应用错误消息
+			aria - boolean - true - 验证后是否应设置/更新 aria-required 和 aria-invalid 属性
+			vm - Vue instance - null - 在其模板中使用指令的上下文组件
+			components - Vue instance - null - 正在验证的组件(如果它是一个组件)
+			ctorConfig - VeeValidateConfig  - null - 字段的作用域配置
+			flags - { [string]: Object } - {} - 字段当前标志状态的字符串/布尔映射
+			alias - string - null - 字段的别名，是一个只读的属性
+			getter - () => any - null - 返回当前字段值的 getter 函数
+			name - string - null - 字段名
+			scope - string - null - 字段作用域
+			targetOf - string - null - 有些字段，是根据目标字母的值来进行验证的，这里表示的是目标字段的 ID(confirmed|before|after 验证规则，都需要目标字段)
+			initial - boolean - false - 字段是否应该在创建后就进行验证
+			classes - boolean - false - 是否应在 HTML input 输入框应用基于标志的类
+			classNames - Object - {} - 一个基于标志应用的、包含了标志名称/类名称的映射
+			delay - number - 0 - 用于该字段事件触发器的延迟秒数
+			listen - boolean - true - 是否该字段应该有监听器
+			model - { expression: string, lazy: boolean } - null - 包含了使用 v-model 绑定到该字段的模型的相关信息
+			value - any - () => undefined - getter 属性的只读版本
+			isRequired - boolean - true|false - 字段是否是 required(是否设置了 required 规则)
+			isDisabled - boolean - true|false - 字段是否是 disabled(如果是 disabled，则跳过验证)
+			validator - Validator - null - 创建了该字段的认证实例的只读引用
+			rejectsFalse - boolean - false - 如果设置为 false，则 required 规则无效
+ 
+		方法
+			名称 - 返回类型 - 描述
+			matches(options: FieldMatchOptions) - boolean - 
+			update(options: FieldOptions) - void - 更新字段属性，并重新添加监听器，以及同步应用的类
+			reset() - void - 将字段标志重置到它们的初始状态
+			setFlags(flags: { [string]: boolean }) - void - 更新字段标志，也更新指定的字段对应项，例如：valid/invalid。
+			unwatch(tag ?: RegExp) - void - 删除匹配到的监听器，如果没有传递参数，则删除所有的监听器
+			updateClasses() - void - 如果启用，则使用标志将应用于元素上的类同步(应该是上面的 classes 设置为 true)
+			updateAriaAttrs() - void - 如果启用，则使用标志将应用于元素上的 aria 属性同步(应该是上面的 aria 设置为 true)
+			updateCustomValidity() - void - 将受约束的 API 验证消息与字段的第一条错误消息同步
+			destroy() - void - 删除字段所有的监听器和依赖
+ 
+Validator API
+	验证器提供了一个 API 来添加新字段和触发验证。
+ 
+	API
+		属性
+			名称 - 类型 - 描述
+			errors - ErrorBag - ErrorBag 类实例，用来管理错误
+			fields - FieldBag - FieldBag 类实例，用来管理字段
+			locale - string - 当前使用的语言设置
+ 
+		方法
+			名称 - 返回类型 - 描述
+			attach(field: FieldOptions) - Field - 将一个新字段附加到验证器上
+ 
+			validate(descriptor ?: String, value ?: any, options ?: Object) - Promise<boolean> - 验证提供的 'descriptor' 参数值匹配到的字段。当验证结束，Promise 返回一个布尔值，表示验证的字段是否有效
+ 
+			validateAll(fields ?: String or Object) - Promise<boolean> - 根据相应的字段验证规则，验证每个值
+ 
+			pause() - void - 禁用认证
+ 
+			resume() - void - 启用认证
+ 
+			verify(value: any, rules: string) - Object - { errors: string[], valid: boolean}
+ 
+			detach(name: string, scope ?: string) - void - 将匹配到的字段(通过 name 和 scope 提供的值进行匹配)从验证器上分离
+ 
+			extend(name: string, rule: Rule, options ?: ExtendOptions) - void - 添加一个新的验证规则。提供的规则参数必须是一个有效的 Rule 函数或对象
+ 
+			reset(matcher ?: Object) - void - 重置所有作用域字段的字段标志。如果未提供作用域，则重置所有字段。
+ 
+			作用域的 reset() 使用
+				let matcher = {
+				    scope: 'form-1',
+				    vmId: this.$validator.id
+				}
+ 
+				this.$validator.reset(matcher);
+ 
+		验证 API
+			validate 方法是触发验证的主要方法，所有参数都是可选的，但是根据我们提供的参数不同，会产生不同的结果。
+ 
+			字段描述符(descriptor)
+				字段描述符是一个字符串, 可以具有以下形式:
+ 
+					// 验证所有字段
+					validator.validate();
+ 
+					// 验证一个 'name 与提供的选择器相匹配' 的字段
+					validator.validate('field');
+ 
+					// 验证作用域内的某个字段
+					validator.validate('scope.field');
+ 
+					// 验证作用域内的所有字段
+					validator.validate('scope.*');
+ 
+					// 验证没有作用域的所有字段
+					validator.validate('*');
+ 
+			值(value)
+				value 参数是可选的，如果没有给 validate() 方法传递 value，validate() 方法将尝试使用内部的值解析算法来解析 value。当传递了 value，则会跳过该算法，并使用该 value 来替代。
+ 
+			验证选项(validation options)
+				我们可以传递选项来修改验证行为，这些选项是一个可以包含以下内容的对象：
+ 
+					属性 - 类型 - 默认值 - 描述
+					silent - Boolean - false - 如果设置为 true，validate() 方法将返回验证结果，而不修改错误和标志。
+ 
+					initial - Boolean - false - 如果设置为 true，在此调用期间，将跳过标记为 non-immediate 的规则，用于防止初始验证触发后端调用
+ 
+		Verify
+			Validator.verify() 方法根据指定的规则验证某个值，允许我们在代码中，编程式地使用 validator，而无需使用 v-validate 指令注册字段。如果我们想要验证值而不是 inputs 输入框字段时，这非常有用，例如，在 Vuex 的 action 中使用：
+ 
+				import { Validator } from 'vee-validate';
+ 
+				const v = new Validator();
+				const { valid, errors } = await v.verify('test', 'max:3');
+ 
+				// valid 属性表示验证的结果
+				console.log(valid); // false
+ 
+				// errors 是一个错误字符串数组
+				console.log(errors); // ["The {field} field may not be greater than 3 characters."]
+ 
+				提示：
+					注意，返回的消息中的 {field} 代表验证的字段名，如果我们需要，我们可以轻松替换它。
+ 
+			Verify Options
+				verify() 接收第三个参数，用于配置验证和消息
+ 
+					v.verify(value, rules, opts);
+ 
+				属性 - 类型 - 默认值 - 描述
+				name - string - {field} - 一个字符串, 表示错误消息中使用的字段名称。
+				bails - boolean - true - 如果为 true，第一次验证失败后，停止之后的验证
+				values - object - {} - 一个对象，映射了跨字段规则所需的其他字段的值
+ 
+			Cross-Field Rules
+				也可以使用目标依赖规则，我们需要在第三个参数中传递 values 对象，对象的键是 '目标字段' 的名称，对象的值是 '目标字段的值'
+ 
+					v.verify('pass', 'confirmed:conf', {
+					  	values: {
+					    	// 目标字段
+					    	conf: 'p@$$'
+					  	}
+					});
+ 

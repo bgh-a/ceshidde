@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+<script>
+
+    function insertNumber(arr,x){
+
+        // 查找到第一个大于x 的数字
+        let b = arr.find(e => e>x);
+
+        if(b === undefined ){
+
+            // 如果b 不存在，证明x是最大的数字，push到数组尾部
+            arr.push(x);
+        }else{
+
+            // 获取b 的index，把新的数字插入到b的位置
+            let bIndex = arr.indexOf(b)
+            arr.splice(bIndex,0,x);
+        }
+
+        return arr;
+    }
+    var arr = [3,2,6,9,7];
+    var h = insertNumber(arr,5);
+    console.log(h);
+</script>
